@@ -199,7 +199,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   return (
     <div className="flex min-h-screen flex-col bg-gov-bg font-sans">
       <header className="relative flex items-center justify-center bg-card px-6 py-3 shadow-sm">
-        <div className="relative">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2">
           <button
             aria-label="Usuário logado"
             onClick={() => setShowUser((v) => !v)}
