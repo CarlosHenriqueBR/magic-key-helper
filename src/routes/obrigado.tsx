@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import govLogo from "@/assets/iconegov.png.asset.json";
-import footerLogo from "@/assets/iconefooter.png.asset.json";
+import govLogoSrc from "@/assets/iconegov.png";
+const govLogo = { url: govLogoSrc };
+import footerLogoSrc from "@/assets/iconefooter.png";
+const footerLogo = { url: footerLogoSrc };
 
 export const Route = createFileRoute("/obrigado")({
   head: () => ({
