@@ -2,9 +2,12 @@ import { useServerFn } from "@tanstack/react-start";
 import { QRCodeCanvas } from "qrcode.react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import govLogo from "@/assets/iconegov.png.asset.json";
-import footerLogo from "@/assets/iconefooter.png.asset.json";
-import limpeNome from "@/assets/limpenome.png.asset.json";
+import govLogoSrc from "@/assets/iconegov.png";
+const govLogo = { url: govLogoSrc };
+import footerLogoSrc from "@/assets/iconefooter.png";
+const footerLogo = { url: footerLogoSrc };
+import limpeNomeSrc from "@/assets/limpenome.png";
+const limpeNome = { url: limpeNomeSrc };
 import { checkPixPayment, createPixPayment } from "@/lib/payment.functions";
 import type { UpsellConfig } from "@/lib/upsell-config";
 
