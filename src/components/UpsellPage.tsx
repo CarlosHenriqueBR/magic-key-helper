@@ -158,7 +158,14 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
       console.error(e);
       setStatus("error");
     }
-  }
+  }, [ctx, createPix, config.id]);
+
+  // Gera o Pix automaticamente quando a oferta aparece
+  useEffect(() => {
+    if (phase === "offer" && ctx && !pix && status === "idle") {
+      void handleCheckout();
+    }
+  }, [phase, ctx, pix, status, handleCheckout]);
 
   async function handleManualCheck() {
     if (!pix || !ctx) return;
