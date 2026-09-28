@@ -59,10 +59,32 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-gov-blue: var(--gov-blue);
+  --color-gov-dark: var(--gov-dark);
+  --color-gov-green: var(--gov-green);
+  --color-gov-yellow: var(--gov-yellow);
+  --color-gov-light-blue: var(--gov-light-blue);
+  --color-gov-red: var(--gov-red);
+  --color-gov-red-soft: var(--gov-red-soft);
+  --color-gov-bg: var(--gov-bg);
+  --color-gov-warning: var(--gov-warning);
+  --color-gov-on-blue: var(--gov-on-blue);
 }
+
 
 :root {
   --radius: 0.625rem;
+  --gov-blue: oklch(0.4 0.13 262);
+  --gov-dark: oklch(0.29 0.1 262);
+  --gov-green: oklch(0.55 0.16 150);
+  --gov-yellow: oklch(0.85 0.16 85);
+  --gov-light-blue: oklch(0.96 0.02 250);
+  --gov-red: oklch(0.53 0.19 25);
+  --gov-red-soft: oklch(0.95 0.03 25);
+  --gov-bg: oklch(0.97 0.003 250);
+  --gov-warning: oklch(0.55 0.15 60);
+  --gov-on-blue: oklch(1 0 0);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
