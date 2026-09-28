@@ -199,16 +199,21 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   return (
     <div className="flex min-h-screen flex-col bg-gov-bg font-sans">
       <header className="relative flex items-center justify-center bg-card px-6 py-3 shadow-sm">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2">
           <button
             aria-label="Usuário logado"
             onClick={() => setShowUser((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-gov-blue transition-opacity hover:opacity-90"
+            className="flex h-9 items-center gap-2 rounded-full bg-gov-blue py-1 pl-1.5 pr-3 transition-opacity hover:opacity-90"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gov-on-blue">
-              <circle cx="12" cy="8" r="4" fill="currentColor" stroke="none" />
-              <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" fill="currentColor" stroke="none" />
-            </svg>
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gov-on-blue/20">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-gov-on-blue">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6z" />
+              </svg>
+            </span>
+            <span className="text-xs font-bold text-gov-on-blue">
+              {ctx?.customer.name ?? "USUARIO345"}
+            </span>
           </button>
           {showUser && (
             <>
