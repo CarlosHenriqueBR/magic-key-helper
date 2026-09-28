@@ -65,7 +65,28 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   const createPix = useServerFn(createPixPayment);
   const checkPix = useServerFn(checkPixPayment);
 
-  useEffect(() => setCtx(readParams()), []);
+  useEffect(() => {
+    setCtx(readParams());
+    // Inicia a análise automaticamente, sem botão
+    setProgress(40);
+    const t1 = setTimeout(() => {
+      setProgress(80);
+      setStep(1);
+    }, 2500);
+    const t2 = setTimeout(() => {
+      setProgress(100);
+      setStep(2);
+    }, 5000);
+    const t3 = setTimeout(() => {
+      setStep(3);
+      setPhase("offer");
+    }, 7000);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, []);
 
   const goToNext = useCallback(
     (search: string) => {
