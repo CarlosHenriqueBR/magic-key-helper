@@ -157,13 +157,16 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
 
   // Gera o Pix automaticamente quando a oferta aparece; tenta de novo em caso de erro ou expiração
   useEffect(() => {
-    if (phase !== "offer" || !ctx || pix) return;
+    if (phase !== "offer" || !ctx || pix) return undefined;
     if (status === "idle") {
       void handleCheckout();
-    } else if (status === "error") {
+      return undefined;
+    }
+    if (status === "error") {
       const t = setTimeout(() => void handleCheckout(), 3000);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [phase, ctx, pix, status, handleCheckout]);
 
   // Se o Pix expirar, gera um novo automaticamente
