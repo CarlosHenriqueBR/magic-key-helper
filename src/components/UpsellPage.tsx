@@ -10,11 +10,6 @@ import type { UpsellConfig } from "@/lib/upsell-config";
 
 const money = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-function formatCPF(cpf: string) {
-  const clean = cpf.replace(/\D/g, "").slice(0, 11);
-  if (clean.length !== 11) return cpf;
-  return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-}
 
 function readParams() {
   const p = new URLSearchParams(window.location.search);
