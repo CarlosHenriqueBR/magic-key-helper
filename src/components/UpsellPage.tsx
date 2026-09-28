@@ -155,18 +155,29 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
     }
   }, [ctx, createPix, config.id]);
 
-  // Gera o Pix automaticamente quando a oferta aparece
+  // Gera o Pix automaticamente quando a oferta aparece; tenta de novo em caso de erro ou expiração
   useEffect(() => {
-    if (phase === "offer" && ctx && !pix && status === "idle") {
+    if (phase !== "offer" || !ctx || pix) return undefined;
+    if (status === "idle") {
       void handleCheckout();
+      return undefined;
     }
+    if (status === "error") {
+      const t = setTimeout(() => void handleCheckout(), 3000);
+      return () => clearTimeout(t);
+    }
+    return undefined;
   }, [phase, ctx, pix, status, handleCheckout]);
 
-  async function handleManualCheck() {
-    if (!pix || !ctx) return;
-    const state = await verify({ id: pix.id, createdAt: pix.createdAt }, ctx).catch(() => "error");
-    if (state === "pending") setCopied(false);
-  }
+  // Se o Pix expirar, gera um novo automaticamente
+  useEffect(() => {
+    if (status !== "expired") return;
+    const t = setTimeout(() => {
+      setPix(null);
+      setStatus("idle");
+    }, 2000);
+    return () => clearTimeout(t);
+  }, [status]);
 
   function copyPix() {
     if (!pix) return;
@@ -216,18 +227,15 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
               </p>
 
               {!pix && (
-                <button
-                  onClick={handleCheckout}
-                  disabled={status === "generating"}
-                  className="w-full rounded-full bg-gov-dark px-4 py-3.5 text-base font-bold text-gov-on-blue transition-colors hover:bg-gov-blue disabled:opacity-60"
-                >
-                  {status === "generating" ? "Gerando Pix..." : copy.payLabel}
-                </button>
+                <div className="flex items-center justify-center gap-3 py-2">
+                  <div className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-gov-blue border-t-transparent" />
+                  <span className="text-sm font-medium text-muted-foreground">Gerando seu Pix...</span>
+                </div>
               )}
 
               {status === "error" && !pix && (
                 <p className="mt-3 text-center text-sm font-medium text-gov-red">
-                  Falha ao gerar o Pix. Tente novamente.
+                  Falha ao gerar o Pix. Tentando novamente...
                 </p>
               )}
 
@@ -249,17 +257,9 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
                   </p>
 
                   {status === "pending" && (
-                    <>
-                      <button
-                        onClick={handleManualCheck}
-                        className="mt-3 w-full rounded-full bg-gov-green px-4 py-2 text-sm font-bold text-gov-on-blue transition-colors hover:opacity-90"
-                      >
-                        Já paguei, verificar
-                      </button>
-                      <p className="mt-2 text-center text-sm text-gov-warning">
-                        Aguardando pagamento... verificando automaticamente.
-                      </p>
-                    </>
+                    <p className="mt-3 text-center text-sm text-gov-warning">
+                      Aguardando pagamento... verificando automaticamente.
+                    </p>
                   )}
 
                   {status === "paid" && (
@@ -269,15 +269,9 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
                   )}
 
                   {status === "expired" && (
-                    <>
-                      <p className="mt-3 text-center text-sm font-bold text-gov-red">⏰ O Pix expirou.</p>
-                      <button
-                        onClick={handleCheckout}
-                        className="mt-2 w-full rounded-full bg-gov-blue px-4 py-2 text-sm font-bold text-gov-on-blue"
-                      >
-                        Gerar novo Pix
-                      </button>
-                    </>
+                    <p className="mt-3 text-center text-sm font-bold text-gov-red">
+                      ⏰ O Pix expirou. Gerando um novo automaticamente...
+                    </p>
                   )}
                 </div>
               )}
