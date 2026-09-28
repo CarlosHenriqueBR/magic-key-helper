@@ -218,7 +218,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
           {showUser && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowUser(false)} />
-              <div className="absolute left-0 top-11 z-50 w-56 rounded-2xl bg-gov-blue p-4 text-gov-on-blue shadow-lg">
+              <div className="absolute right-0 top-11 z-50 w-56 rounded-2xl bg-gov-blue p-4 text-gov-on-blue shadow-lg">
                 <p className="text-[11px] uppercase tracking-wide opacity-80">Usuário logado</p>
                 <p className="mt-1 text-sm font-bold">{ctx?.customer.name ?? "USUARIO345"}</p>
                 <p className="mt-0.5 font-mono text-xs opacity-90">
