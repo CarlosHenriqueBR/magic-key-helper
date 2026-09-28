@@ -53,7 +53,7 @@ export type UpsellCopy = {
 
 export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: UpsellCopy }) {
   const [ctx, setCtx] = useState<Ctx | null>(null);
-  const [phase, setPhase] = useState<"start" | "loading" | "offer">("start");
+  const [phase, setPhase] = useState<"loading" | "offer">("loading");
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pix, setPix] = useState<{ code: string; id: string; createdAt: string } | null>(null);
