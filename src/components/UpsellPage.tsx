@@ -183,14 +183,8 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
 
   return (
     <div className="flex min-h-screen flex-col bg-gov-bg font-sans">
-      <header className="flex items-center justify-between bg-card px-6 py-3 shadow-sm">
+      <header className="flex items-center justify-center bg-card px-6 py-3 shadow-sm">
         <img src={govLogo.url} alt="Gov.br" className="h-8 w-auto" />
-        <div className="text-right leading-tight">
-          <strong className="block text-sm text-foreground">{ctx?.customer.name ?? "Nome"}</strong>
-          <span className="text-xs text-muted-foreground">
-            {ctx ? formatCPF(ctx.customer.document) : "CPF"}
-          </span>
-        </div>
       </header>
 
       <main className="flex flex-1 items-center justify-center px-4 py-8">
