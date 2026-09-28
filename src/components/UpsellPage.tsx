@@ -62,6 +62,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   const [pix, setPix] = useState<{ code: string; id: string; createdAt: string } | null>(null);
   const [status, setStatus] = useState<"idle" | "generating" | "pending" | "paid" | "expired" | "error">("idle");
   const [copied, setCopied] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const doneRef = useRef(false);
 
