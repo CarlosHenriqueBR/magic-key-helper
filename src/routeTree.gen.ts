@@ -10,33 +10,92 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as IcmsRouteImport } from './routes/icms'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as Up2RouteImport } from './routes/up2'
+import { Route as Up3RouteImport } from './routes/up3'
+import { Route as ApiPublicNitroWebhookRouteImport } from './routes/api/public/nitro-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IcmsRoute = IcmsRouteImport.update({
+  id: '/icms',
+  path: '/icms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Up2Route = Up2RouteImport.update({
+  id: '/up2',
+  path: '/up2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Up3Route = Up3RouteImport.update({
+  id: '/up3',
+  path: '/up3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicNitroWebhookRoute = ApiPublicNitroWebhookRouteImport.update({
+  id: '/api/public/nitro-webhook',
+  path: '/api/public/nitro-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/icms': typeof IcmsRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/up2': typeof Up2Route
+  '/up3': typeof Up3Route
+  '/api/public/nitro-webhook': typeof ApiPublicNitroWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/icms': typeof IcmsRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/up2': typeof Up2Route
+  '/up3': typeof Up3Route
+  '/api/public/nitro-webhook': typeof ApiPublicNitroWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/icms': typeof IcmsRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/up2': typeof Up2Route
+  '/up3': typeof Up3Route
+  '/api/public/nitro-webhook': typeof ApiPublicNitroWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/icms' | '/obrigado' | '/up2' | '/up3' | '/api/public/nitro-webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    '/' | '/icms' | '/obrigado' | '/up2' | '/up3' | '/api/public/nitro-webhook'
+  id:
+    | '__root__'
+    | '/'
+    | '/icms'
+    | '/obrigado'
+    | '/up2'
+    | '/up3'
+    | '/api/public/nitro-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IcmsRoute: typeof IcmsRoute
+  ObrigadoRoute: typeof ObrigadoRoute
+  Up2Route: typeof Up2Route
+  Up3Route: typeof Up3Route
+  ApiPublicNitroWebhookRoute: typeof ApiPublicNitroWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +107,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/icms': {
+      id: '/icms'
+      path: '/icms'
+      fullPath: '/icms'
+      preLoaderRoute: typeof IcmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/up2': {
+      id: '/up2'
+      path: '/up2'
+      fullPath: '/up2'
+      preLoaderRoute: typeof Up2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/up3': {
+      id: '/up3'
+      path: '/up3'
+      fullPath: '/up3'
+      preLoaderRoute: typeof Up3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/nitro-webhook': {
+      id: '/api/public/nitro-webhook'
+      path: '/api/public/nitro-webhook'
+      fullPath: '/api/public/nitro-webhook'
+      preLoaderRoute: typeof ApiPublicNitroWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IcmsRoute: IcmsRoute,
+  ObrigadoRoute: ObrigadoRoute,
+  Up2Route: Up2Route,
+  Up3Route: Up3Route,
+  ApiPublicNitroWebhookRoute: ApiPublicNitroWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
