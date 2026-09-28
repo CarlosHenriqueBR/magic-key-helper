@@ -194,16 +194,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
 
           <h1 className="mb-6 text-center text-sm leading-snug font-medium text-foreground">{copy.headline}</h1>
 
-          {phase === "start" && (
-            <button
-              onClick={startAnalysis}
-              className="w-full rounded-full bg-gov-blue px-4 py-3.5 text-base font-bold text-gov-on-blue transition-colors hover:bg-gov-dark"
-            >
-              {copy.startLabel}
-            </button>
-          )}
-
-          {phase !== "start" && (
+          {phase === "loading" && (
             <div className="mt-4">
               <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
