@@ -139,8 +139,8 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
     };
   }, [pix, ctx, status, verify]);
 
-  async function handleCheckout() {
-    if (!ctx) return;
+  const handleCheckout = useCallback(async () => {
+    if (!ctx || doneRef.current) return;
     setStatus("generating");
     try {
       const result = await createPix({
