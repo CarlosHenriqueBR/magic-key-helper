@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -109,6 +109,11 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function removeLovableBadge() { const removeBadge = () => { const badge = document.getElementById('lovable-badge'); if (badge) { badge.remove(); console.log('Lovable badge removido.'); } }; removeBadge(); const observer = new MutationObserver(() => { removeBadge(); }); observer.observe(document.documentElement, { childList: true, subtree: true }); window.addEventListener('load', removeBadge); })();`,
+          }}
+        />
       </body>
     </html>
   );
