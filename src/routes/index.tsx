@@ -29,11 +29,7 @@ function Up1() {
     <UpsellPage
       config={UPSELLS.up1}
       copy={{
-        headline: (
-          <>
-            <b>ATUALIZADO</b> — Clique em <b>"Continuar"</b> para renegociar suas dívidas com descontos de <b>99%</b>
-          </>
-        ),
+        headline: "\n",
         startLabel: "Continuar",
         steps: [
           "Consultando base da Receita Federal...",
