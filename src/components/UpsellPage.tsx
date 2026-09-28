@@ -53,7 +53,7 @@ export type UpsellCopy = {
 
 export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: UpsellCopy }) {
   const [ctx, setCtx] = useState<Ctx | null>(null);
-  const [phase, setPhase] = useState<"start" | "loading" | "offer">("start");
+  const [phase, setPhase] = useState<"loading" | "offer">("loading");
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pix, setPix] = useState<{ code: string; id: string; createdAt: string } | null>(null);
@@ -65,7 +65,28 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   const createPix = useServerFn(createPixPayment);
   const checkPix = useServerFn(checkPixPayment);
 
-  useEffect(() => setCtx(readParams()), []);
+  useEffect(() => {
+    setCtx(readParams());
+    // Inicia a análise automaticamente, sem botão
+    setProgress(40);
+    const t1 = setTimeout(() => {
+      setProgress(80);
+      setStep(1);
+    }, 2500);
+    const t2 = setTimeout(() => {
+      setProgress(100);
+      setStep(2);
+    }, 5000);
+    const t3 = setTimeout(() => {
+      setStep(3);
+      setPhase("offer");
+    }, 7000);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, []);
 
   const goToNext = useCallback(
     (search: string) => {
@@ -117,23 +138,6 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
       if (pollRef.current) clearInterval(pollRef.current);
     };
   }, [pix, ctx, status, verify]);
-
-  function startAnalysis() {
-    setPhase("loading");
-    setProgress(40);
-    setTimeout(() => {
-      setProgress(80);
-      setStep(1);
-    }, 2500);
-    setTimeout(() => {
-      setProgress(100);
-      setStep(2);
-    }, 5000);
-    setTimeout(() => {
-      setStep(3);
-      setPhase("offer");
-    }, 7000);
-  }
 
   async function handleCheckout() {
     if (!ctx) return;
@@ -190,16 +194,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
 
           <h1 className="mb-6 text-center text-sm leading-snug font-medium text-foreground">{copy.headline}</h1>
 
-          {phase === "start" && (
-            <button
-              onClick={startAnalysis}
-              className="w-full rounded-full bg-gov-blue px-4 py-3.5 text-base font-bold text-gov-on-blue transition-colors hover:bg-gov-dark"
-            >
-              {copy.startLabel}
-            </button>
-          )}
-
-          {phase !== "start" && (
+          {phase === "loading" && (
             <div className="mt-4">
               <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
