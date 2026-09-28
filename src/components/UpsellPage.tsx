@@ -10,6 +10,14 @@ import type { UpsellConfig } from "@/lib/upsell-config";
 
 const money = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+function formatCPF(cpf: string) {
+  const clean = cpf.replace(/\D/g, "").slice(0, 11);
+  if (clean.length !== 11) return cpf;
+  return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+}
+
+
+
 
 function readParams() {
   const p = new URLSearchParams(window.location.search);
@@ -54,6 +62,7 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
   const [pix, setPix] = useState<{ code: string; id: string; createdAt: string } | null>(null);
   const [status, setStatus] = useState<"idle" | "generating" | "pending" | "paid" | "expired" | "error">("idle");
   const [copied, setCopied] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const doneRef = useRef(false);
 
@@ -189,7 +198,31 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
 
   return (
     <div className="flex min-h-screen flex-col bg-gov-bg font-sans">
-      <header className="flex items-center justify-center bg-card px-6 py-3 shadow-sm">
+      <header className="relative flex items-center justify-center bg-card px-6 py-3 shadow-sm">
+        <div className="relative">
+          <button
+            aria-label="Usuário logado"
+            onClick={() => setShowUser((v) => !v)}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-gov-blue transition-opacity hover:opacity-90"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gov-on-blue">
+              <circle cx="12" cy="8" r="4" fill="currentColor" stroke="none" />
+              <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" fill="currentColor" stroke="none" />
+            </svg>
+          </button>
+          {showUser && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowUser(false)} />
+              <div className="absolute left-0 top-11 z-50 w-56 rounded-2xl bg-gov-blue p-4 text-gov-on-blue shadow-lg">
+                <p className="text-[11px] uppercase tracking-wide opacity-80">Usuário logado</p>
+                <p className="mt-1 text-sm font-bold">{ctx?.customer.name ?? "USUARIO345"}</p>
+                <p className="mt-0.5 font-mono text-xs opacity-90">
+                  {ctx ? formatCPF(ctx.customer.document) : "CPF"}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
         <img src={govLogo.url} alt="Gov.br" className="h-8 w-auto" />
       </header>
 
