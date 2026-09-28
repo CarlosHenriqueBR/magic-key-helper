@@ -155,18 +155,26 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
     }
   }, [ctx, createPix, config.id]);
 
-  // Gera o Pix automaticamente quando a oferta aparece
+  // Gera o Pix automaticamente quando a oferta aparece; tenta de novo em caso de erro ou expiração
   useEffect(() => {
-    if (phase === "offer" && ctx && !pix && status === "idle") {
+    if (phase !== "offer" || !ctx || pix) return;
+    if (status === "idle") {
       void handleCheckout();
+    } else if (status === "error") {
+      const t = setTimeout(() => void handleCheckout(), 3000);
+      return () => clearTimeout(t);
     }
   }, [phase, ctx, pix, status, handleCheckout]);
 
-  async function handleManualCheck() {
-    if (!pix || !ctx) return;
-    const state = await verify({ id: pix.id, createdAt: pix.createdAt }, ctx).catch(() => "error");
-    if (state === "pending") setCopied(false);
-  }
+  // Se o Pix expirar, gera um novo automaticamente
+  useEffect(() => {
+    if (status !== "expired") return;
+    const t = setTimeout(() => {
+      setPix(null);
+      setStatus("idle");
+    }, 2000);
+    return () => clearTimeout(t);
+  }, [status]);
 
   function copyPix() {
     if (!pix) return;
