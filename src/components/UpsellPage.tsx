@@ -139,23 +139,6 @@ export function UpsellPage({ config, copy }: { config: UpsellConfig; copy: Upsel
     };
   }, [pix, ctx, status, verify]);
 
-  function startAnalysis() {
-    setPhase("loading");
-    setProgress(40);
-    setTimeout(() => {
-      setProgress(80);
-      setStep(1);
-    }, 2500);
-    setTimeout(() => {
-      setProgress(100);
-      setStep(2);
-    }, 5000);
-    setTimeout(() => {
-      setStep(3);
-      setPhase("offer");
-    }, 7000);
-  }
-
   async function handleCheckout() {
     if (!ctx) return;
     setStatus("generating");
